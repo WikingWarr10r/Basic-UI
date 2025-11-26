@@ -1,6 +1,7 @@
 import pygame
 import sys
 from ui.math import *
+from ui.pointer import Ptr
 
 class UINumber:
     def __init__(self, value, pos, label, font, bounds=None):
@@ -11,6 +12,7 @@ class UINumber:
         self.width = 50
         self.height = 20
         self.bounds = bounds
+        self.link = None
         if not bounds == None:
             bnds = bounds
             if bounds[0] == "-inf":
@@ -18,6 +20,9 @@ class UINumber:
             if bounds[1] == "inf":
                 bnds[1] = sys.maxsize
             self.bounds = bnds
+
+    def link_variable(self, pointer):
+        self.link = pointer
 
     def render(self, screen):
         rect = pygame.Rect(self.pos.x, self.pos.y, self.width, self.height)
@@ -28,7 +33,11 @@ class UINumber:
 
         text_surf = self.font.render(self.label, True, (255, 255, 255))
         screen.blit(text_surf, (self.pos.x + 5 + self.width, self.pos.y + (self.height - text_surf.get_height()) / 2))
-    
+
+        if self.link is not None:
+            self.link.set_value(self.value)
+
+
     def handle_event(self, event):
         if event.type == pygame.MOUSEWHEEL:
             mouse_pos = vec2(*pygame.mouse.get_pos())
@@ -40,8 +49,6 @@ class UINumber:
                         self.value = self.bounds[0]
                     if self.value > self.bounds[1]:
                         self.value = self.bounds[1]
-
-
 
     def set_value(self, val):
         self.value = val
@@ -62,8 +69,11 @@ class UIButton:
         self.font = font
         self.width = 50
         self.height = 20
-
+        self.link = None
         self.hold = hold
+
+    def link_variable(self, pointer):
+        self.link = pointer
 
     def render(self, screen):
         rect = pygame.Rect(self.pos.x, self.pos.y, self.width, self.height)
@@ -74,6 +84,9 @@ class UIButton:
 
         text_surf = self.font.render(self.label, True, (255, 255, 255))
         screen.blit(text_surf, (self.pos.x + 5 + self.width, self.pos.y + (self.height - text_surf.get_height()) / 2))
+
+        if self.link is not None:
+            self.link.set_value(self.value)
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -108,10 +121,17 @@ class UILabel:
         self.pos = pos
         self.label = label
         self.font = font
+        self.link = None
 
     def render(self, screen):
         text_surf = self.font.render(self.label, True, (255, 255, 255))
         screen.blit(text_surf, (self.pos.x, self.pos.y + (text_surf.get_height()) / 2))
+
+        if self.link is not None:
+            self.link.set_value(self.value)
+            
+    def link_variable(self, pointer):
+        self.link = pointer
 
     def handle_event(self, event):
         pass
@@ -130,11 +150,15 @@ class UIVec2:
         self.font = font
         self.width = 120
         self.height = 20
+        self.link = None
 
         self.box_width = 50
         self.box_height = 20
 
         self.spacing = 5
+
+    def link_variable(self, pointer):
+        self.link = pointer
 
     def render(self, screen):
         x_start = self.pos.x
@@ -159,6 +183,9 @@ class UIVec2:
         screen.blit(text_y, (x_start + (self.box_width - text_y.get_width()) / 2, self.pos.y + (self.box_height - text_y.get_height()) / 2))
         x_start += self.box_width + self.spacing
 
+        if self.link is not None:
+            self.link.set_value(self.value)
+            
     def handle_event(self, event):
         if event.type == pygame.MOUSEWHEEL:
             mouse_pos = vec2(*pygame.mouse.get_pos())
@@ -192,6 +219,10 @@ class UIChoice:
         self.font = font
         self.width = 100
         self.height = 20
+        self.link = None
+
+    def link_variable(self, pointer):
+        self.link = pointer
 
     def render(self, screen):
         rect = pygame.Rect(self.pos.x, self.pos.y, self.width, self.height)
@@ -239,6 +270,9 @@ class UIChoice:
             label_surf = self.font.render(label_text, True, (255, 255, 255))
         screen.blit(label_surf, (self.pos.x + 5 + self.width, self.pos.y + (self.height - label_surf.get_height()) / 2))
 
+        if self.link is not None:
+            self.link.set_value(self.value)
+            
     def handle_event(self, event):
         if event.type == pygame.MOUSEWHEEL:
             mouse_pos = vec2(*pygame.mouse.get_pos())

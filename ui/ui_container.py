@@ -57,6 +57,10 @@ class UIContainer:
         if label in self.lookup:
             self.lookup[label].set_value(val)
 
+    def link_value(self, label, variable):
+        if label in self.lookup:
+            self.lookup[label].link_variable(variable)
+
     def delete_element(self, label):
         if label in self.lookup:
             elem = self.lookup.pop(label)
