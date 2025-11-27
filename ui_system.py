@@ -23,33 +23,34 @@ class UISystem:
             ctr.render(self.screen)
             ctr.update()
 
-pygame.init()
+if __name__ == "main.py":
+    pygame.init()
 
-screen = pygame.display.set_mode((1280,720))
+    screen = pygame.display.set_mode((1280,720))
 
-clock = pygame.time.Clock()
+    clock = pygame.time.Clock()
 
-test_num = Ptr(0)
-test_bool = Ptr(False)
+    test_num = Ptr(0)
+    test_bool = Ptr(False)
 
-container = UIContainer("Test", vec2(0, 0), 100, 500)
-container.add_number(0, "Test Num")
-container.add_button(False, "Test Button", True)
-container.link_value("Test Num", test_num)
-container.link_value("Test Button", test_bool)
+    container = UIContainer("Test", vec2(0, 0), 100, 500)
+    container.add_number(0, "Test Num")
+    container.add_button(False, "Test Button", True)
+    container.link_value("Test Num", test_num)
+    container.link_value("Test Button", test_bool)
 
-ui_system = UISystem(screen)
-ui_system.add_container(container)
+    ui_system = UISystem(screen)
+    ui_system.add_container(container)
 
-while True:
-    ui_system.handle_events()
+    while True:
+        ui_system.handle_events()
 
-    screen.fill("black")
+        screen.fill("black")
 
-    print(test_num)
-    print(test_bool)
+        print(test_num)
+        print(test_bool)
 
-    ui_system.update()
+        ui_system.update()
 
-    pygame.display.flip()
-    clock.tick(60)
+        pygame.display.flip()
+        clock.tick(60)
