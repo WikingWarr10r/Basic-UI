@@ -102,6 +102,13 @@ class UIContainer:
         else:
             self.height = 20 + len(self.elements) * 25
 
+        max_width = 0
+        padding = 15
+        for element in self.elements:
+            if (element.width + self.font.render(element.label, True, (255, 255, 255)).get_width() + padding) > max_width:
+                max_width = element.width + self.font.render(element.label, True, (255, 255, 255)).get_width() + padding
+        self.width = max_width
+
     def render(self, screen):
         surf = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
 
