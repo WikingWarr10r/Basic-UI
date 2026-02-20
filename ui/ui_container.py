@@ -105,8 +105,9 @@ class UIContainer:
         max_width = 0
         padding = 15
         for element in self.elements:
-            if (element.width + self.font.render(element.label, True, (255, 255, 255)).get_width() + padding) > max_width:
-                max_width = element.width + self.font.render(element.label, True, (255, 255, 255)).get_width() + padding
+            if hasattr(element, "label"):
+                if (element.width + self.font.render(element.label, True, (255, 255, 255)).get_width() + padding) > max_width:
+                    max_width = element.width + self.font.render(element.label, True, (255, 255, 255)).get_width() + padding
         if self.font.render(self.title, True, (255, 255, 255)).get_width() + padding*2 > max_width:
             max_width = self.font.render(self.title, True, (255, 255, 255)).get_width() + padding*2
         self.width = max_width

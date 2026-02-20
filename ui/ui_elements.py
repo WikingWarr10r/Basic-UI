@@ -108,6 +108,7 @@ class UIButton:
 
 class UISpacer:
     def __init__(self, pos):
+        self.width = 0
         self.pos = pos
 
     def render(self, screen):
@@ -122,6 +123,7 @@ class UILabel:
         self.label = label
         self.font = font
         self.link = None
+        self.width = self.font.render(self.label, True, (255, 255, 255)).get_width()
 
     def render(self, screen):
         text_surf = self.font.render(self.label, True, (255, 255, 255))

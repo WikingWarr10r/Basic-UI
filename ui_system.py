@@ -23,7 +23,7 @@ class UISystem:
             ctr.render(self.screen)
             ctr.update()
 
-if __name__ == "main.py":
+def main():
     pygame.init()
 
     screen = pygame.display.set_mode((1280,720))
@@ -35,7 +35,12 @@ if __name__ == "main.py":
 
     container = UIContainer("Test", vec2(0, 0), 100, 500)
     container.add_number(0, "Test Num")
+    container.add_spacer()
+    container.add_label("Test Label")
+    container.add_choice(["Choice1", "Choice2", "Choice3"], "Test Choice")
+    container.add_vec2(vec2(0, 0), "Test Vec2s")
     container.add_button(False, "Test Button", True)
+
     container.link_value("Test Num", test_num)
     container.link_value("Test Button", test_bool)
 
@@ -54,3 +59,6 @@ if __name__ == "main.py":
 
         pygame.display.flip()
         clock.tick(60)
+
+if __name__ == "__main__":
+    main()
